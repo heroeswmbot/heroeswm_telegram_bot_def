@@ -88,56 +88,6 @@ try:
                             time_dict[clan].append({time_deff: list_clan})
 
             if str(time_dict) != x:
-                time_dict = {}
-                deff_requests = s.get('https://www.heroeswm.ru/mapwars.php', headers=HEADERS)
-                deff_requests.encoding = 'windows-1251'
-
-                soup_deff = BeautifulSoup(deff_requests.text, "html.parser").findAll('td', class_='wb')
-
-                for i in range(len(soup_deff)):
-                    if '<i>Сурвилурги</i>' in str(soup_deff[i]):
-                        clan = str(soup_deff[i]).split('<b>')[1].split('</b>')[0].split()[0][1:]
-                        time_deff = str(soup_deff[i - 1]).split(':')[0][-2:] + ':' + str(soup_deff[i - 1]).split(':')[1][:2]
-                        if clan not in time_dict:
-                            if '<i>Сурвилурги</i> vs' in str(soup_deff[i]):
-                                time_dict[clan] = [{time_deff: 0}]
-                            elif '<i>Сурвилурги</i> <a' in str(soup_deff[i]):
-                                list_clan = []
-                                count_clan = str(soup_deff[i]).split('> vs <')[0].split('alt="#')
-                                for j in range(1, len(count_clan)):
-                                    list_clan.append(count_clan[j].split('"')[0])
-                                time_dict[clan] = [{time_deff: list_clan}]
-                        elif clan in time_dict:
-                            if '<i>Сурвилурги</i> vs' in str(soup_deff[i]):
-                                time_dict[clan].append({time_deff: 0})
-                            elif '<i>Сурвилурги</i> <a' in str(soup_deff[i]):
-                                list_clan = []
-                                count_clan = str(soup_deff[i]).split('> vs <')[0].split('alt="#')
-                                for j in range(1, len(count_clan)):
-                                    list_clan.append(count_clan[j].split('"')[0])
-                                time_dict[clan].append({time_deff: list_clan})
-
-                    elif '</b>Сурвилурги</i>' in str(soup_deff[i]):
-                        clan = str(soup_deff[i]).split('<b>')[2].split('</b>')[0].split()[0][1:]
-                        time_deff = str(soup_deff[i - 1]).split(':')[0][-2:] + ':' + str(soup_deff[i - 1]).split(':')[1][:2]
-                        if clan not in time_dict:
-                            if 'Сурвилурги</i> vs' in str(soup_deff[i]):
-                                time_dict[clan] = [{time_deff: 0}]
-                            elif 'Сурвилурги</i> <a' in str(soup_deff[i]):
-                                list_clan = []
-                                count_clan = str(soup_deff[i]).split('> vs <')[0].split('alt="#')
-                                for j in range(1, len(count_clan)):
-                                    list_clan.append(count_clan[j].split('"')[0])
-                                time_dict[clan] = [{time_deff: list_clan}]
-                        elif clan in time_dict:
-                            if 'Сурвилурги</i> vs' in str(soup_deff[i]):
-                                time_dict[clan].append({time_deff: 0})
-                            elif 'Сурвилурги</i> <a' in str(soup_deff[i]):
-                                list_clan = []
-                                count_clan = str(soup_deff[i]).split('> vs <')[0].split('alt="#')
-                                for j in range(1, len(count_clan)):
-                                    list_clan.append(count_clan[j].split('"')[0])
-                                time_dict[clan].append({time_deff: list_clan})
 
                 with open('db.txt', "w") as file:
                     file.write(str(time_dict))
